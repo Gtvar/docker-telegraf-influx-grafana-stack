@@ -1,27 +1,44 @@
 version: '3.6'
 services:
   telegraf:
+    platform: linux/amd64
     image: telegraf:1.18-alpine
+    container_name: tg_telegraf
     volumes:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
       - influxdb
+      - mongo
+      - elasticsearch
+      - app
+      - php
     links:
       - influxdb
+      - mongo
+      - elasticsearch
+      - app
     ports:
     - '127.0.0.1:8125:8125/udp'
+    networks:
+      - tig-test
 
   influxdb:
+    platform: linux/amd64
     image: influxdb:1.8-alpine
+    container_name: tg_influxdb
     env_file: configuration.env
     ports:
       - '127.0.0.1:8086:8086'
     volumes:
       - ./:/imports
       - influxdb_data:/var/lib/influxdb
+    networks:
+      - tig-test
 
   grafana:
     image: grafana/grafana:8.0.2
+    container_name: tg_grafana
     depends_on:
       - influxdb
     env_file: configuration.env
@@ -33,7 +50,71 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards/:/var/lib/grafana/dashboards/
+    networks:
+      - tig-test
+
+  mongo:
+    image: mongo:latest
+    container_name: tg_mongo
+    tty: true
+    privileged: true
+    stdin_open: true
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    env_file: configuration.env
+    expose:
+      - 27017
+    ports:
+      - '127.0.0.1:27017:27017'
+    networks:
+      - tig-test
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
+    container_name: tg_elasticsearch
+    tty: true
+    privileged: true
+    stdin_open: true
+    env_file: configuration.env
+    ports:
+      - "9200:9200"
+    environment:
+      - "discovery.type=single-node"
+    networks:
+      - tig-test
+
+  app:
+    image: nginx:latest
+    container_name: tg_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www
+      - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
+    links:
+      - php
+      - mongo
+    depends_on:
+      - php
+      - mongo
+    networks:
+      - tig-test
+
+  php:
+    build:
+      context: ./php
+    container_name: tg_php
+    volumes:
+      - ./app:/var/www
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+    networks:
+      - tig-test
 
 volumes:
   grafana_data: {}
   influxdb_data: {}
+
+networks:
+  tig-test:
+    driver: bridge
