@@ -23,7 +23,7 @@ class IndexController extends AbstractController
             $repository->save($telegraf);
         }
 
-        $all = $repository->findBy([], [], 100);
+        $all = $repository->findBy([], [], 100, rand(0, 1000));
 
         $data = [];
         foreach ($all as $telegraf) {

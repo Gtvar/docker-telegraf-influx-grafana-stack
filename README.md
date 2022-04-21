@@ -9,15 +9,17 @@ This an example project to show the TIG (Telegraf, InfluxDB and Grafana) stack.
 - elasticsearch
 - docker
 
-![Nginx](./screenshot/nginx.png?raw=true "Nginx")
-![PHP](./screenshot/phpfpm.png?raw=true "PHP")
-![Mongo](./screenshot/mongo.png?raw=true "Mongo")
-![ElasticSearch](./screenshot/es.png?raw=true "ElasticSearch")
-![System](./screenshot/system.png?raw=true "System")
-![System](./screenshot/system2.png?raw=true "System")
-![Docker](./screenshot/docker.png?raw=true "Docker")
-![Docker](./screenshot/docker2.png?raw=true "Docker")
-![Summary](./screenshot/summary.png?raw=true "Summary")
+#### Example screenshots
+
+![Nginx](./screenshots/nginx.png?raw=true "Nginx")
+![PHP](./screenshots/phpfpm.png?raw=true "PHP")
+![Mongo](./screenshots/mongo.png?raw=true "Mongo")
+![ElasticSearch](./screenshots/es.png?raw=true "ElasticSearch")
+![System](./screenshots/system.png?raw=true "System")
+![System](./screenshots/system2.png?raw=true "System")
+![Docker](./screenshots/docker.png?raw=true "Docker")
+![Docker](./screenshots/docker2.png?raw=true "Docker")
+![Summary](./screenshots/summary.png?raw=true "Summary")
 
 ## Start the stack with docker compose
 
