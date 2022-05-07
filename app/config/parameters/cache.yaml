@@ -1,0 +1,2 @@
+parameters:
+  redis.namespace.default: '%env(string:REDIS_NAMESPACE)%'

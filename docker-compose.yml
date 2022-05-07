@@ -10,12 +10,14 @@ services:
     depends_on:
       - influxdb
       - mongo
+      - redisdb
       - elasticsearch
       - app
       - php
     links:
       - influxdb
       - mongo
+      - redisdb
       - elasticsearch
       - app
     ports:
@@ -63,8 +65,10 @@ services:
       - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
     links:
       - php
+      - redisdb
     depends_on:
       - php
+      - redisdb
     networks:
       - tig-test
 
@@ -74,6 +78,7 @@ services:
     container_name: tg_php
     volumes:
       - ./app:/var/www
+      - ./php/php.ini:/usr/local/etc/php/php.ini:ro
       - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
     links:
       - mongo
@@ -92,10 +97,22 @@ services:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
     env_file: configuration.env
+    volumes:
+      - mondodb:/data/db
     expose:
       - 27017
     ports:
       - '127.0.0.1:27017:27017'
+    networks:
+      - tig-test
+
+  redisdb:
+    image: redis:5
+    container_name: tg_redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdb:/data/db
     networks:
       - tig-test
 
@@ -116,6 +133,8 @@ services:
 volumes:
   grafana_data: {}
   influxdb_data: {}
+  mondodb: {}
+  redisdb: {}
 
 networks:
   tig-test:

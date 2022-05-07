@@ -44,3 +44,25 @@ $ cd app
 $ composer install
 $ ab -n 1000 -c 3 http://localhost:8080/
 ```
+
+## Stress Test Practice
+
+1. Open page with generation mongo data
+![Generate](http://localhost:8080/telegraf/generate "Generate")
+
+2. Run siege
+
+```bash
+siege -b  -c10  -v -t120s -f siege/siege-urls.txt
+```
+
+## Probabilistic cache flushing example
+
+``
+app/src/Repository/Redis/TelegrafCacheRepository.php:21
+
+## Test results
+
+``
+siege/Test1.md
+``

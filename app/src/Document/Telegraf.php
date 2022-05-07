@@ -20,6 +20,16 @@ class Telegraf
     private $id;
 
     /**
+     * @MongoDB\Field(type="string")
+     */
+    private $status;
+
+    /**
+     * @MongoDB\Field(type="string")
+     */
+    private $text;
+
+    /**
      * @MongoDB\Field(type="date")
      */
     private $createdAt;
@@ -45,6 +55,30 @@ class Telegraf
     public function setId(string $id): self
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
 
         return $this;
     }

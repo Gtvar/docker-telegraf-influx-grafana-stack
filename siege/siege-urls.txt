@@ -1,0 +1,12 @@
+http://localhost:8080/telegraf/status/new?offset=400
+http://localhost:8080/telegraf/status/new?offset=18400
+http://localhost:8080/telegraf/status/take_task?offset=1400
+http://localhost:8080/telegraf/status/take_task?offset=28400
+http://localhost:8080/telegraf/status/on_delivery_point?offset=3400
+http://localhost:8080/telegraf/status/on_delivery_point?offset=34400
+http://localhost:8080/telegraf/status/pickup?offset=1400
+http://localhost:8080/telegraf/status/pickup?offset=20400
+http://localhost:8080/telegraf/status/delivered?offset=1400
+http://localhost:8080/telegraf/status/delivered?offset=12400
+http://localhost:8080/telegraf/status/canceled?offset=2400
+http://localhost:8080/telegraf/status/canceled?offset=14400
