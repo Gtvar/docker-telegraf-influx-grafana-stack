@@ -13,13 +13,13 @@ class Simple implements StampedeInterface
         $rnd = rand(0, self::STAMPEDE_TTL);
         $recompute = $ttl - $rnd < 0;
 
-        if ($recompute) {
-            printf("* Simple: early recompute! ttl:%d rnd:%.06f \n",
-                 $ttl, $rnd);
-        } else {
-            printf("* Simple: just data ttl:%d rnd:%.06f \n",
-                $ttl, $rnd);
-        }
+        //if ($recompute) {
+        //    printf("* Simple: early recompute! ttl:%d rnd:%.06f \n",
+        //         $ttl, $rnd);
+        //} else {
+        //    printf("* Simple: just data ttl:%d rnd:%.06f \n",
+        //        $ttl, $rnd);
+        //}
 
         return $recompute;
     }

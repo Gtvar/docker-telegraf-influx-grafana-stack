@@ -22,13 +22,13 @@ class Xfetch implements StampedeInterface
         $xfetch = self::DELTA * self::BETA * $logrnd;
 
         $recompute = ($now - $xfetch) >= $expiry;
-        if ($recompute) {
-            printf("* Xfetch: early recompute! delta:%.04f ttl:%d rnd:%.06f logrnd:%.04f xfetch:%.04f\n",
-                self::DELTA, $ttl, $rnd, $logrnd, $xfetch);
-        } else {
-            printf("* Xfetch: just data delta:%.04f ttl:%d rnd:%.06f logrnd:%.04f xfetch:%.04f\n",
-                self::DELTA, $ttl, $rnd, $logrnd, $xfetch);
-        }
+        //if ($recompute) {
+        //    printf("* Xfetch: early recompute! delta:%.04f ttl:%d rnd:%.06f logrnd:%.04f xfetch:%.04f\n",
+        //        self::DELTA, $ttl, $rnd, $logrnd, $xfetch);
+        //} else {
+        //    printf("* Xfetch: just data delta:%.04f ttl:%d rnd:%.06f logrnd:%.04f xfetch:%.04f\n",
+        //        self::DELTA, $ttl, $rnd, $logrnd, $xfetch);
+        //}
 
         return $recompute;
     }
