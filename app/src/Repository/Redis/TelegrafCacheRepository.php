@@ -4,11 +4,24 @@ declare(strict_types=1);
 
 namespace App\Repository\Redis;
 
+use App\Dictionary\StampedeStrategyType;
+use App\Service\Stampede\StampedeProvider;
+
 class TelegrafCacheRepository extends AbstractRepository
 {
     const ENTITY = 'telegraf';
     const CACHE_TTL = 100;
-    const STAMPEDE_TTL = 30;
+
+    /**
+     * @var StampedeProvider
+     */
+    private $stampedeProvider;
+
+    public function __construct(\Redis $redis, string $redisNamespace, StampedeProvider $stampedeProvider)
+    {
+        parent::__construct($redis, $redisNamespace);
+        $this->stampedeProvider = $stampedeProvider;
+    }
 
     /**
      * Probabilistic cache flushing algorithm
@@ -21,7 +34,7 @@ class TelegrafCacheRepository extends AbstractRepository
             return [];
         }
 
-        if ($ttl - rand(0, self::STAMPEDE_TTL) < 0) {
+        if ($this->stampedeProvider->getStrategy(StampedeStrategyType::XFETCH)->isNeedRecompute($ttl)) {
             return [];
         }
 
