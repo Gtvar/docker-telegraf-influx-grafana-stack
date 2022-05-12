@@ -9,35 +9,27 @@ use App\Dictionary\StampedeStrategyType;
  */
 class Xfetch implements StampedeInterface
 {
-    private const BETA = 1.0;
-    private const DELTA = 5;
+    private const BETA = 0.2;
 
-    public function isNeedRecompute($ttl): bool
+    public function isNeedRecompute(int $ttl, float $delta): bool
     {
         $now = time();
         $expiry = $now + $ttl;
         $rnd = self::rnd();
         $logrnd = log($rnd);
 
-        $xfetch = self::DELTA * self::BETA * $logrnd;
+        $xfetch = $delta * self::BETA * $logrnd;
 
-        $recompute = ($now - $xfetch) >= $expiry;
-        //if ($recompute) {
-        //    printf("* Xfetch: early recompute! delta:%.04f ttl:%d rnd:%.06f logrnd:%.04f xfetch:%.04f\n",
-        //        self::DELTA, $ttl, $rnd, $logrnd, $xfetch);
-        //} else {
-        //    printf("* Xfetch: just data delta:%.04f ttl:%d rnd:%.06f logrnd:%.04f xfetch:%.04f\n",
-        //        self::DELTA, $ttl, $rnd, $logrnd, $xfetch);
-        //}
-
-        return $recompute;
+        return ($now - $xfetch) >= $expiry;
     }
 
     private static function rnd()
     {
         $max = mt_getrandmax();
 
-        return mt_rand(1, $max) / $max;
+        $rnd = mt_rand(1, $max) / $max;
+
+        return max($rnd, 0.1);
     }
 
     public static function getType(): string

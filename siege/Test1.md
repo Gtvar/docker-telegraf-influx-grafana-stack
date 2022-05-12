@@ -1,73 +1,68 @@
 ``
-siege -b  -c10  -v -t150s -f siege/siege-urls.txt
-``
-
-Lifting the server siege...
-Transactions:		        1095 hits
-Availability:		      100.00 %
-Elapsed time:		      149.70 secs
-Data transferred:	        5.74 MB
-Response time:		        1.36 secs
-Transaction rate:	        7.31 trans/sec
-Throughput:		        0.04 MB/sec
-Concurrency:		        9.96
-Successful transactions:        1095
-Failed transactions:	           0
-Longest transaction:	        6.40
-Shortest transaction:	        0.99
-
-
-``
-siege -b  -c25  -v -t150s -f siege/siege-urls.txt
-``
-
-Lifting the server siege...
-Transactions:		         516 hits
-Availability:		      100.00 %
-Elapsed time:		      149.54 secs
-Data transferred:	        2.71 MB
-Response time:		        7.10 secs
-Transaction rate:	        3.45 trans/sec
-Throughput:		        0.02 MB/sec
-Concurrency:		       24.50
-Successful transactions:         516
-Failed transactions:	           0
-Longest transaction:	       15.64
-Shortest transaction:	        0.87
-
-``
-siege -b  -c50  -v -t150s -f siege/siege-urls.txt
-``
-
-Lifting the server siege...
-Transactions:		         455 hits
-Availability:		      100.00 %
-Elapsed time:		      149.99 secs
-Data transferred:	        2.39 MB
-Response time:		       15.71 secs
-Transaction rate:	        3.03 trans/sec
-Throughput:		        0.02 MB/sec
-Concurrency:		       47.66
-Successful transactions:         455
-Failed transactions:	           0
-Longest transaction:	       27.68
-Shortest transaction:	        7.64
-
-
-``
 siege -b  -c100  -v -t150s -f siege/siege-urls.txt
 ``
 
+## Without cache
+
 Lifting the server siege...
-Transactions:		         920 hits
-Availability:		       99.46 %
-Elapsed time:		      149.39 secs
-Data transferred:	        5.62 MB
-Response time:		       15.47 secs
-Transaction rate:	        6.16 trans/sec
+Transactions:		         522 hits
+Availability:		       97.03 %
+Elapsed time:		       99.36 secs
+Data transferred:	        5.24 MB
+Response time:		       17.31 secs
+Transaction rate:	        5.25 trans/sec
+Throughput:		        0.05 MB/sec
+Concurrency:		       90.95
+Successful transactions:         522
+Failed transactions:	          16
+Longest transaction:	       20.40
+Shortest transaction:	        1.27
+
+## Simple Cache
+
+Lifting the server siege...
+Transactions:		         636 hits
+Availability:		       99.38 %
+Elapsed time:		       99.40 secs
+Data transferred:	        3.96 MB
+Response time:		       14.48 secs
+Transaction rate:	        6.40 trans/sec
 Throughput:		        0.04 MB/sec
-Concurrency:		       95.26
-Successful transactions:         920
-Failed transactions:	           5
-Longest transaction:	       25.91
-Shortest transaction:	        1.36
+Concurrency:		       92.66
+Successful transactions:         636
+Failed transactions:	           4
+Longest transaction:	       17.34
+Shortest transaction:	        0.88
+
+## Probabilistic with Ttl
+
+Lifting the server siege...
+Transactions:		         649 hits
+Availability:		       99.08 %
+Elapsed time:		       99.69 secs
+Data transferred:	        4.35 MB
+Response time:		       14.17 secs
+Transaction rate:	        6.51 trans/sec
+Throughput:		        0.04 MB/sec
+Concurrency:		       92.26
+Successful transactions:         649
+Failed transactions:	           6
+Longest transaction:	       16.39
+Shortest transaction:	        0.88
+
+
+## Probabilistic with Delta
+
+Lifting the server siege...
+Transactions:		         644 hits
+Availability:		       99.84 %
+Elapsed time:		       99.78 secs
+Data transferred:	        3.54 MB
+Response time:		       14.42 secs
+Transaction rate:	        6.45 trans/sec
+Throughput:		        0.04 MB/sec
+Concurrency:		       93.10
+Successful transactions:         644
+Failed transactions:	           1
+Longest transaction:	       17.24
+Shortest transaction:	        0.84

@@ -10,7 +10,7 @@ use App\Service\Stampede\StampedeProvider;
 class TelegrafCacheRepository extends AbstractRepository
 {
     const ENTITY = 'telegraf';
-    const CACHE_TTL = 100;
+    const CACHE_TTL = 60;
 
     /**
      * @var StampedeProvider
@@ -34,25 +34,35 @@ class TelegrafCacheRepository extends AbstractRepository
             return [];
         }
 
-        if ($this->stampedeProvider->getStrategy(StampedeStrategyType::XFETCH)->isNeedRecompute($ttl)) {
+        $delta = (float) $this->getClient()->get($this->getDeltaCacheKey($status, $offset));
+
+        if ($this->stampedeProvider->getStrategy(StampedeStrategyType::XFETCH)->isNeedRecompute($ttl, $delta)) {
             return [];
         }
 
         return $this->getClient()->hGetAll($this->getCacheKey($status, $offset));
     }
 
-    public function saveRecords(string $status, int $offset, array $records): void
+    public function saveRecords(string $status, int $offset, array $records, float $delta): void
     {
         foreach ($records as $id => $time) {
             $this->getClient()->hSet($this->getCacheKey($status, $offset), $id, $time);
         }
 
         $this->getClient()->expire($this->getCacheKey($status, $offset), self::CACHE_TTL);
+
+        $this->getClient()->set($this->getDeltaCacheKey($status, $offset), $delta);
+        $this->getClient()->expire($this->getDeltaCacheKey($status, $offset), self::CACHE_TTL);
     }
 
     protected function getCacheKey(string $status, int $offset): string
     {
         return parent::getKey(sprintf('%s.%s', $status, $offset));
+    }
+
+    protected function getDeltaCacheKey(string $status, int $offset): string
+    {
+        return parent::getKey(sprintf('%s.%s.delta', $status, $offset));
     }
 
     protected function getEntity(): string

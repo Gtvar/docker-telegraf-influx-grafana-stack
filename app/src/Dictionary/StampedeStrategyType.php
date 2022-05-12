@@ -8,4 +8,5 @@ final class StampedeStrategyType
 {
     public const SIMPLE = 'simple';
     public const XFETCH = 'xfetch';
+    public const DUMMY = 'dummy';
 }

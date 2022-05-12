@@ -24,14 +24,18 @@ class RecordProvider
             return $data;
         }
 
+        $start = microtime(true);
+
         $all = $this->repository->findBy(['status' => $status], [], 100, $offset);
+
+        $delta = round((microtime(true) - $start) * 1000, 2);
 
         $data = [];
         foreach ($all as $telegraf) {
             $data[$telegraf->getId()] = $telegraf->getCreatedAt()->format(\DATE_ATOM);
         }
 
-        $this->telegrafCacheRepository->saveRecords($status, $offset, $data);
+        $this->telegrafCacheRepository->saveRecords($status, $offset, $data, $delta);
 
         return $data;
     }
