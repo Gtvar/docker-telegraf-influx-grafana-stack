@@ -36,6 +36,7 @@ Accept-Ranges: bytes
 ```
 
 If we want purge cache for changing content we can send request with header `Cache-Purge: 1`
+We use proxy_cache_bypass option with mapping for header and check by IP.
 We will see response header `Cache: BYPASS` and content will have changed.
 
 ```
